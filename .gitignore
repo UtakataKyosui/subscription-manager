@@ -49,6 +49,10 @@ coverage
 tmp
 temp
 
+# Next.js
+/.next/
+/out/
+
 # START Ruler Generated Files
 /.agent/rules/ruler.md
 /.agent/rules/ruler.md.bak
