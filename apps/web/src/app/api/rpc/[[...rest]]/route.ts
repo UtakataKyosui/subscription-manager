@@ -1,4 +1,6 @@
 import { createContext } from "@my-better-t-app/api/context";
+
+export const dynamic = "force-dynamic";
 import { appRouter } from "@my-better-t-app/api/routers/index";
 import { OpenAPIHandler } from "@orpc/openapi/fetch";
 import { OpenAPIReferencePlugin } from "@orpc/openapi/plugins";
