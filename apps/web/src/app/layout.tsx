@@ -17,8 +17,20 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "my-better-t-app",
-  description: "my-better-t-app",
+  title: "〜サブスク管理アプリ〜",
+  description: "サブスク管理しようね〜",
+  openGraph: {
+    title: "〜サブスク管理アプリ〜",
+    description: "サブスク管理しようね〜",
+    siteName: "〜サブスク管理アプリ〜",
+    locale: "ja_JP",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "〜サブスク管理アプリ〜",
+    description: "サブスク管理しようね〜",
+  },
 };
 
 export default function RootLayout({
