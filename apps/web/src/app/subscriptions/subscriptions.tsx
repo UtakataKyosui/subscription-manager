@@ -836,91 +836,95 @@ export default function SubscriptionsPage() {
 
                     {/* 右カラム: ジャンル一覧 */}
                     <div className="space-y-4">
-                        <div className="flex items-center justify-between px-1">
-                            <h2 className="text-lg font-semibold flex items-center gap-2">
-                                <Folder className="h-5 w-5 text-muted-foreground" />
-                                ジャンル
-                                <span className="text-xs font-normal text-muted-foreground ml-2">
-                                    {summary.data?.genreSummaries.length || 0}
-                                </span>
-                            </h2>
-                            {/* ジャンル登録モーダル */}
-                            <Dialog open={isAddGenreModalOpen} onOpenChange={setIsAddGenreModalOpen}>
-                                <DialogTrigger
-                                    render={(props) => (
-                                        <Button {...props} variant="outline" size="sm" className="h-8 gap-1 px-3">
-                                            <Plus className="h-3.5 w-3.5" />
-                                            ジャンルを追加
-                                        </Button>
-                                    )}
-                                />
-                                <DialogContent className="sm:max-w-[425px]">
-                                    <DialogHeader>
-                                        <DialogTitle>ジャンル作成</DialogTitle>
-                                        <DialogDescription>
-                                            サブスクリプションを分類するカテゴリを作成します。
-                                        </DialogDescription>
-                                    </DialogHeader>
-                                    <form onSubmit={handleAddGenre} className="space-y-4 py-4">
-                                        <div className="space-y-2">
-                                            <Label htmlFor="genre-name">ジャンル名</Label>
-                                            <Input
-                                                id="genre-name"
-                                                value={newGenreName}
-                                                onChange={(e) => setNewGenreName(e.target.value)}
-                                                placeholder="例: 動画配信"
-                                                disabled={createGenreMutation.isPending}
-                                            />
-                                        </div>
-                                        <DialogFooter className="pt-4">
-                                            <Button
-                                                type="submit"
-                                                className="w-full"
-                                                disabled={createGenreMutation.isPending || !newGenreName.trim()}
-                                            >
-                                                {createGenreMutation.isPending && (
-                                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                                )}
-                                                作成する
+                        <Card>
+                            <CardHeader className="pb-3 px-4 flex flex-row items-center justify-between space-y-0">
+                                <div className="space-y-1">
+                                    <CardTitle className="text-base flex items-center gap-2">
+                                        <Folder className="h-4 w-4 text-muted-foreground" />
+                                        ジャンル
+                                        <span className="text-xs font-normal text-muted-foreground bg-muted px-1.5 py-0.5 rounded">
+                                            {summary.data?.genreSummaries.length || 0}
+                                        </span>
+                                    </CardTitle>
+                                </div>
+                                {/* ジャンル登録モーダル */}
+                                <Dialog open={isAddGenreModalOpen} onOpenChange={setIsAddGenreModalOpen}>
+                                    <DialogTrigger
+                                        render={(props) => (
+                                            <Button {...props} variant="outline" size="sm" className="h-8 gap-1 px-3">
+                                                <Plus className="h-3.5 w-3.5" />
+                                                ジャンルを追加
                                             </Button>
-                                        </DialogFooter>
-                                    </form>
-                                </DialogContent>
-                            </Dialog>
-                        </div>
+                                        )}
+                                    />
+                                    <DialogContent className="sm:max-w-[425px]">
+                                        <DialogHeader>
+                                            <DialogTitle>ジャンル作成</DialogTitle>
+                                            <DialogDescription>
+                                                サブスクリプションを分類するカテゴリを作成します。
+                                            </DialogDescription>
+                                        </DialogHeader>
+                                        <form onSubmit={handleAddGenre} className="space-y-4 py-4">
+                                            <div className="space-y-2">
+                                                <Label htmlFor="genre-name">ジャンル名</Label>
+                                                <Input
+                                                    id="genre-name"
+                                                    value={newGenreName}
+                                                    onChange={(e) => setNewGenreName(e.target.value)}
+                                                    placeholder="例: 動画配信"
+                                                    disabled={createGenreMutation.isPending}
+                                                />
+                                            </div>
+                                            <DialogFooter className="pt-4">
+                                                <Button
+                                                    type="submit"
+                                                    className="w-full"
+                                                    disabled={createGenreMutation.isPending || !newGenreName.trim()}
+                                                >
+                                                    {createGenreMutation.isPending && (
+                                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                                    )}
+                                                    作成する
+                                                </Button>
+                                            </DialogFooter>
+                                        </form>
+                                    </DialogContent>
+                                </Dialog>
+                            </CardHeader>
+                            <CardContent className="space-y-2 pb-4 px-4">
 
-                        {/* ジャンル一覧（ドロップエリア） */}
-                        {summary.data?.genreSummaries.map((gs) => (
-                            <DroppableGenre
-                                key={gs.genre.id}
-                                genre={gs.genre as Genre}
-                                subscriptions={gs.subscriptions as Subscription[]}
-                                subtotal={gs.subtotal}
-                                onDrop={handleDrop}
-                                onDelete={(id) => deleteGenreMutation.mutate({ id })}
-                                onColorChange={handleColorChange}
-                                formatPrice={formatPrice}
-                            />
-                        ))}
+                                {/* ジャンル一覧（ドロップエリア） */}
+                                {summary.data?.genreSummaries.map((gs) => (
+                                    <DroppableGenre
+                                        key={gs.genre.id}
+                                        genre={gs.genre as Genre}
+                                        subscriptions={gs.subscriptions as Subscription[]}
+                                        subtotal={gs.subtotal}
+                                        onDrop={handleDrop}
+                                        onDelete={(id) => deleteGenreMutation.mutate({ id })}
+                                        onColorChange={handleColorChange}
+                                        formatPrice={formatPrice}
+                                    />
+                                ))}
 
-                        {/* ジャンル未設定 */}
-                        {summary.data?.unassigned && (
-                            <UnassignedDropZone
-                                subscriptions={unassignedSubs}
-                                subtotal={summary.data.unassigned.subtotal}
-                                onRemoveFromGenre={handleRemoveFromAllGenres}
-                                formatPrice={formatPrice}
-                            />
-                        )}
+                                {/* ジャンル未設定 */}
+                                {summary.data?.unassigned && (
+                                    <UnassignedDropZone
+                                        subscriptions={unassignedSubs}
+                                        subtotal={summary.data.unassigned.subtotal}
+                                        onRemoveFromGenre={handleRemoveFromAllGenres}
+                                        formatPrice={formatPrice}
+                                    />
+                                )}
 
-                        {genres.data?.length === 0 && (
-                            <Card className="border-dashed">
-                                <CardContent className="py-12 text-center text-muted-foreground text-sm">
-                                    <Folder className="h-8 w-8 mx-auto mb-2 opacity-20" />
-                                    ジャンルを追加して管理を開始しましょう
-                                </CardContent>
-                            </Card>
-                        )}
+                                {genres.data?.length === 0 && (
+                                    <div className="py-12 text-center text-muted-foreground text-sm">
+                                        <Folder className="h-8 w-8 mx-auto mb-2 opacity-20" />
+                                        ジャンルを追加して管理を開始しましょう
+                                    </div>
+                                )}
+                            </CardContent>
+                        </Card>
                     </div>
                 </div>
             </div>
