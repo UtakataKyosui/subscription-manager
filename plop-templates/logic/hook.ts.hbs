@@ -1,0 +1,34 @@
+import { useState, useCallback } from 'react';
+
+{{#if (eq type "interaction")}}
+export function {{name}}() {
+const [value, setValue] = useState('');
+
+const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+    }, []);
+
+    const handleSubmit = useCallback(() => {
+    console.log('Submitted:', value);
+    }, [value]);
+
+    return {
+    value,
+    handleChange,
+    handleSubmit,
+    };
+    }
+    {{else}}
+    export function {{name}}(initialValue: number) {
+    const [data, setData] = useState(initialValue);
+
+    const calculate = useCallback((factor: number) => {
+    return data * factor;
+    }, [data]);
+
+    return {
+    data,
+    calculate,
+    };
+    }
+    {{/if}}

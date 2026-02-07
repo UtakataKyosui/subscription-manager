@@ -1,0 +1,17 @@
+{{#if (eq kind "zod")}}
+import { z } from 'zod';
+
+export const {{name}}Schema = z.object({
+id: z.string().uuid(),
+name: z.string().min(1),
+createdAt: z.date(),
+});
+
+export type {{name}} = z.infer<typeof {{name}}Schema>;
+    {{else}}
+    export interface {{name}} {
+    id: string;
+    name: string;
+    isEnabled: boolean;
+    }
+    {{/if}}

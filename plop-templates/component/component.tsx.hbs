@@ -1,0 +1,38 @@
+import { cn } from "@/lib/utils";
+
+{{#if (eq type "stateful")}}
+import { useState } from 'react';
+
+interface {{name}}Props extends React.HTMLAttributes<HTMLDivElement> {
+  initialCount?: number;
+  }
+
+  export function {{name}}({ initialCount = 0, className, ...props }: {{name}}Props) {
+  const [count, setCount] = useState(initialCount);
+
+  return (
+  <div className={cn("p-4 border rounded", className)} {...props}>
+    <h2 className="text-lg font-bold">{{name}}</h2>
+    <p>Count: {count}</p>
+    <button className="mt-2 px-4 py-2 bg-primary text-primary-foreground rounded hover:bg-primary/90" onClick={()=>
+      setCount(c => c + 1)}
+      >
+      Increment
+    </button>
+  </div>
+  );
+  }
+  {{else}}
+  interface {{name}}Props extends React.HTMLAttributes<HTMLDivElement> {
+    title?: string;
+    }
+
+    export function {{name}}({ title = '{{name}}', className, ...props }: {{name}}Props) {
+    return (
+    <div className={cn("p-4 border rounded", className)} {...props}>
+      <h2 className="text-lg font-bold">{title}</h2>
+      <p>This is a functional component.</p>
+    </div>
+    );
+    }
+    {{/if}}
